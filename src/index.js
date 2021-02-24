@@ -11,7 +11,7 @@ const Task = require('./models/task');
 const app = express();
 const port = process.env.PORT || 3000;
 
-//app.use(auth);
+//app.use(auth); // moved into router part to be selective % routes (not global)
 
 app.use(express.json());
 app.use(userRouter);

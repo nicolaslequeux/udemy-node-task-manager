@@ -19,6 +19,7 @@ const auth = async (req, res, next) => {
 
         // As auth already fetched the user, I can pass it to avoid another GET from actions to follow (after this middleware)
         req.user = user;
+        req.token = token;
         next();
 
     } catch (e) {
