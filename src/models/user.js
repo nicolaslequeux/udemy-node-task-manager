@@ -49,6 +49,8 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    timestamps: true
 });
 
 // Virtual property => relationships between 2 databases without changing the User model
@@ -117,7 +119,7 @@ userSchema.pre('remove', async function (next) {
     next();
 })
 
-
+// "User" is the model, mongoose will pluralize the name to create the table "users" 
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
