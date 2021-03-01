@@ -48,7 +48,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    avatar: {
+        type: Buffer
+    }
 }, {
     timestamps: true
 });
@@ -74,15 +77,16 @@ userSchema.virtual('tasks', {
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject(); // mongoose method
-    delete userObject.password
-    delete userObject.tokens
+    delete userObject.password;
+    delete userObject.tokens;
+    delete userObject.avatar;
     return userObject;
 }
 
 // Instance method = I need the 'this binding, thus using a classical function (no binding with arrow function)
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'ThisIsMySecretKey', { expiresIn: '7 days' })
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: '7 days' })
     user.tokens = user.tokens.concat({ token })
     await user.save()
     return token

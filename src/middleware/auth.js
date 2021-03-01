@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
         // Is-there an 'Authorization" header with 'Bearer eyJhbGci...'?
         const token = req.header('Authorization').replace('Bearer ', '');
         // Is the token 'eyJhbGci...' valid?
-        const decoded = jwt.verify(token, 'ThisIsMySecretKey');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         // Is there a user with the decoded _id and valid token?
         const user = await User.findOne({ _id: decoded._id, 'tokens.token' : token });
 
